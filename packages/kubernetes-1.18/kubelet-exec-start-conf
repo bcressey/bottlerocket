@@ -18,7 +18,9 @@ ExecStart=/usr/bin/kubelet \
     --root-dir /var/lib/kubelet \
     --cert-dir /var/lib/kubelet/pki \
     --volume-plugin-dir /var/lib/kubelet/plugins/volume/exec \
-    --node-ip ${NODE_IP} \
+{{~#if settings.kubernetes.node-ip}}
+    --node-ip "{{settings.kubernetes.node-ip}}" \
+{{~/if}}
     --node-labels "${NODE_LABELS}" \
     --register-with-taints "${NODE_TAINTS}" \
     --pod-infra-container-image ${POD_INFRA_CONTAINER_IMAGE}

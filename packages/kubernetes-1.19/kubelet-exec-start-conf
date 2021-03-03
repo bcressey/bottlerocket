@@ -17,7 +17,9 @@ ExecStart=/usr/bin/kubelet \
     --network-plugin cni \
     --root-dir /var/lib/kubelet \
     --cert-dir /var/lib/kubelet/pki \
-    --node-ip ${NODE_IP} \
+{{~#if settings.kubernetes.node-ip}}
+    --node-ip "{{settings.kubernetes.node-ip}}" \
+{{~/if}}
     --node-labels "${NODE_LABELS}" \
     --register-with-taints "${NODE_TAINTS}" \
     --pod-infra-container-image ${POD_INFRA_CONTAINER_IMAGE}
