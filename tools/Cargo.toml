@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "buildsys",
+    "buildsys-make",
     "pubsys",
     "pubsys-config",
     "pubsys-setup",
