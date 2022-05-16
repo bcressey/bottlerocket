@@ -104,7 +104,12 @@ RUN --mount=target=/host \
         --repofrompath repo,./rpmbuild/RPMS \
         --enablerepo 'repo' \
         --nogpgcheck \
-        builddep rpmbuild/SPECS/${PACKAGE}.spec
+        builddep rpmbuild/SPECS/${PACKAGE}.spec \
+    && for libc in gnu musl ; do \
+         for cc in cc gcc c++ g++ ; do \
+           ln -s ../../bin/ccache /usr/lib64/ccache/${ARCH}-bottlerocket-linux-${libc}-${cc} ; \
+          done ; \
+       done
 
 # We use the "nocache" writable space to generate code where necessary, like the variant-
 # specific models.
@@ -114,7 +119,10 @@ RUN --mount=source=.cargo,target=/home/builder/.cargo \
     --mount=type=cache,target=/home/builder/rpmbuild/BUILD/sources/models/src/variant,from=variantcache,source=/variantcache \
     --mount=type=cache,target=/home/builder/rpmbuild/BUILD/sources/logdog/conf/current,from=variantcache,source=/variantcache \
     --mount=source=sources,target=/home/builder/rpmbuild/BUILD/sources \
-    rpmbuild -ba --clean rpmbuild/SPECS/${PACKAGE}.spec
+    export PATH="/usr/lib64/ccache:${PATH}" && \
+    ccache --zero-stats && \
+    rpmbuild -ba --clean rpmbuild/SPECS/${PACKAGE}.spec && \
+    ccache --show-stats
 
 # =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^= =^..^=
 # Copies RPM packages from the previous stage to their expected location so that buildsys
