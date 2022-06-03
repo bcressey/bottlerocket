@@ -226,9 +226,9 @@ mkdir -p "${ROOT_MOUNT}/lost+found"
 ROOT_LABELS=$(setfiles -n -d -F -m -r "${ROOT_MOUNT}" \
     "${SELINUX_FILE_CONTEXTS}" "${ROOT_MOUNT}" \
     | awk -v root="${ROOT_MOUNT}" '{gsub(root"/","/"); gsub(root,"/"); print "ea_set", $1, "security.selinux", $4}')
-mkfs.ext4 -O ^has_journal -b "${VERITY_DATA_BLOCK_SIZE}" -d "${ROOT_MOUNT}" "${ROOT_IMAGE}" "${partsize[ROOT-A]}M"
+# FIXME check size!
+"${0%/*}/dir2fs" "${ROOT_MOUNT}" "${ROOT_IMAGE}"
 echo "${ROOT_LABELS}" | debugfs -w -f - "${ROOT_IMAGE}"
-resize2fs -M "${ROOT_IMAGE}"
 dd if="${ROOT_IMAGE}" of="${OS_IMAGE}" conv=notrunc bs=1M seek="${partoff[ROOT-A]}"
 
 # BOTTLEROCKET-VERITY-A
@@ -292,9 +292,9 @@ chmod -R go-rwx "${BOOT_MOUNT}"
 BOOT_LABELS=$(setfiles -n -d -F -m -r "${BOOT_MOUNT}" \
     "${SELINUX_FILE_CONTEXTS}" "${BOOT_MOUNT}" \
   | awk -v root="${BOOT_MOUNT}" '{gsub(root"/","/"); gsub(root,"/"); print "ea_set", $1, "security.selinux", $4}')
-mkfs.ext4 -O ^has_journal -d "${BOOT_MOUNT}" "${BOOT_IMAGE}" "${partsize[BOOT-A]}M"
+# FIXME check size!
+"${0%/*}/dir2fs" "${BOOT_MOUNT}" "${BOOT_IMAGE}"
 echo "${BOOT_LABELS}" | debugfs -w -f - "${BOOT_IMAGE}"
-resize2fs -M "${BOOT_IMAGE}"
 dd if="${BOOT_IMAGE}" of="${OS_IMAGE}" conv=notrunc bs=1M seek="${partoff[BOOT-A]}"
 
 # BOTTLEROCKET-PRIVATE
