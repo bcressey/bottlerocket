@@ -4,6 +4,9 @@
 # The root filesystem is ext4
 CONFIG_EXT4_FS=y
 
+# We use overlayfs everywhere
+CONFIG_OVERLAY_FS=y
+
 # NVMe for EC2 Nitro platforms (C5, M5, and later)
 CONFIG_BLK_DEV_NVME=y
 CONFIG_NVME_CORE=y
