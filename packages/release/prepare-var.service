@@ -17,7 +17,7 @@ ExecStart=/usr/bin/rm -rf \
     /var/lib/kernel-modules \
     /var/lib/cni-plugins
 
-ExecStart=/usr/bin/mkdir -p \
+ExecStart=/usr/bin/mkdir -p -Z \
     /var/lib/kernel-devel/.overlay/lower \
     /var/lib/kernel-devel/.overlay/upper \
     /var/lib/kernel-devel/.overlay/work \
@@ -25,13 +25,6 @@ ExecStart=/usr/bin/mkdir -p \
     /var/lib/kernel-modules/.overlay/work \
     /var/lib/cni-plugins/.overlay/upper \
     /var/lib/cni-plugins/.overlay/work
-
-# Ensure the directories are labeled as expected.
-ExecStart=/usr/sbin/setfiles \
-    -F /etc/selinux/fortified/contexts/files/file_contexts \
-    /var/lib/kernel-devel \
-    /var/lib/kernel-modules \
-    /var/lib/cni-plugins
 
 RemainAfterExit=true
 StandardError=journal+console
