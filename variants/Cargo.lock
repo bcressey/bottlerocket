@@ -1111,6 +1111,7 @@ version = "0.1.0"
 dependencies = [
  "glibc",
  "settings-defaults",
+ "settings-migrations",
  "settings-plugins",
 ]
 
@@ -1209,6 +1210,10 @@ version = "0.1.0"
 dependencies = [
  "glibc",
 ]
+
+[[package]]
+name = "settings-migrations"
+version = "0.1.0"
 
 [[package]]
 name = "settings-plugins"
