@@ -14,6 +14,10 @@ grub-set-private-var = true
 uefi-secure-boot = true
 xfs-data-partition = true
 systemd-networkd = true
+fips = true
+
+[package.metadata.build-variant.image-layout]
+partition-plan = "unified"
 
 [package.metadata.build-variant]
 included-packages = [
