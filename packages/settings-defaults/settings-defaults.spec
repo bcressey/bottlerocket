@@ -17,6 +17,7 @@ Source100: create-data-partition-links.service
 Source101: force-reboot.service
 Source102: debug-console.service
 Source103: systemd-udev-trigger-debug.conf
+Source104: wait-for-selinux.conf
 
 %description
 %{summary}.
@@ -306,6 +307,7 @@ install -p -m 0644 %{S:100} %{S:101} %{S:102} %{buildroot}%{_cross_unitdir}
 
 mkdir -p %{buildroot}%{_cross_unitdir}/systemd-udev-trigger.service.d
 install -p -m 0644 %{S:103} %{buildroot}%{_cross_unitdir}/systemd-udev-trigger.service.d/000-debug.conf
+install -p -m 0644 %{S:104} %{buildroot}%{_cross_unitdir}/systemd-udev-trigger.service.d/001-selinux.conf
 
 %files
 %dir %{_cross_defaultsdir}
@@ -313,6 +315,7 @@ install -p -m 0644 %{S:103} %{buildroot}%{_cross_unitdir}/systemd-udev-trigger.s
 %{_cross_unitdir}/force-reboot.service
 %{_cross_unitdir}/debug-console.service
 %{_cross_unitdir}/systemd-udev-trigger.service.d/000-debug.conf
+%{_cross_unitdir}/systemd-udev-trigger.service.d/001-selinux.conf
 
 %files aws-dev
 %{_cross_defaultsdir}/aws-dev.toml
